@@ -1,0 +1,70 @@
+IT IS WHAT IT IS,
+BUT THATS ALL IT IS.
+
+fastapi takes the input as a json, runs it through my python code 'server side' and returns either a successful '200' or an error back out to the client
+json is just a format of exchanging information, not exactly javascript
+look into postman API tool, swagger UI is much easier tho
+javascipt is for interactive items, calling API, data manipulation, buttons etc.
+HTML is for the struccture of the input information, where things are one the page, what headers, what fields
+css is styling
+
+
+
+simple to do program that has a front and back end, mostly focus on back end use chatGPT for front-end 
+CRUD functionality.  create read update delete
+
+
+do not move venv files from machine to machine, that is what the requirements.txt file is for
+
+front end would run on localhost:3000
+back end would run on localhost:8000
+you can only run one thing on each port
+
+pygenation loads part of the data at one time instead of giving you a ton of data
+
+so you dont publish venv to github ->
+
+add .gitingnore file outside of venv folder
+then goto gitingnore.io, type in language ie python
+copy everything in there and add it to .gitignore
+
+pip freeze > requirements.txt, creates req folder 
+
+
+dependancies allow a function to depend on another function
+
+DATABASES
+1. requirements.txt -> sqlalchemy, passlib, bcrypt
+2. create database in database.py
+3. define database in famain.py
+4. create database models(tables) -> ie. (users) or (blog_posts)
+5. create functionality to write to database -> ie. (create_user) in db_user.p
+6. create schemas
+    - Data from user -> (UserBase)
+    - Response to user -> (UserDisplay)
+7. create API functionality -> router in (user.py), POST method    
+
+ORM library:
+obhect relational mapping -> library that can conver from OO programming into DATABASES
+
+-> SQL Alchemy 
+
+USER -(CREATE NEW USER)-> (SCHEMA)INFORMATION FROM USER -> (MODEL)WHAT GOES INTO DATABASE  -> CREATE USER  
+<--------<------------<--(USER REQUEST ie. here is your new user profile)---------<-----------<------------     
+
+purpose of ahving a seperate class for User Request is to obscure 
+
+Database Checklist
+- Database definition -> database.pyg
+- Model definition -> models.py
+- Create Database -> main.py
+- Schema definition -> schemas.pyg
+- ORM functionality -> db_user.pyg
+- API functionality -> user.py 
+
+
+json on the front end gets converted into python object using pydantic
+
+primary key is what uniquely identifies a row in a table or model
+primary key is anything that is unique to that row, ie. email, username, id
+forign key is something that links a unique row in one table to a unique row in another table ie user id to blog post id
