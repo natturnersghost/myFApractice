@@ -1,13 +1,21 @@
-from typing import Union
+from typing import List
 from pydantic import BaseModel
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, Request
 from crud.MLS import mlsSchemas
+from crud.MLS.mlsSchemas import UserDisplay 
 from datetime import datetime
 from sqlalchemy.orm import Session
-from db.database import get_db
+from mlsDB.mlsdatabase import get_db
 from crud import crudmodels
+from mlsDB.mlsdatabase import engine
+from crud.crudmodels import bills
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
 
 app1 = FastAPI()
+app2 = FastAPI()
 job_counter = 0
 #CRUD 
 #HTTP methods: GET, POST, PUT, DELETE
@@ -120,17 +128,42 @@ jobs = {
     #'JobType': JobType,
 }
 
- 
-@app1.post('/new_job', response_model=mlsSchemas.Job)
+app2.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
+
+@app2.get("/", response_class=HTMLResponse)
+async def read_index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+
+@app2.post('/new_job', response_model=mlsSchemas.Job)
 
 def new_job(new_job: mlsSchemas.Job, db: Session = Depends(get_db)):
-    count = crudmodels.get_job_counter(db)
-    count = crudmodels.increment_job_counter(db)
-    job_id = crudmodels.generate_id(count)
-    
-    return crudmodels.add_new_job(db, new_job),{
-                'job_id': job_id,
-                'new_job': new_job,
-            }
+    new_job_entry = crudmodels.add_new_job(db, new_job)
 
-    
+
+    return new_job_entry
+
+crudmodels.Base.metadata.create_all(engine)   
+
+@app2.get('/jobs', response_model=List[UserDisplay])
+def get_all_jobs(db: Session = Depends(get_db)):
+    return crudmodels.get_all_jobs(db)
+
+@app2.get('/job/{id}', response_model=UserDisplay)
+def get_job(id: int, db: Session = Depends(get_db)):
+    return crudmodels.get_job(db, id)
+
+@app2.get('/job/{id}/bill')
+def bill_job(id: int, db: Session = Depends(get_db)):
+
+    job = crudmodels.get_job(db, id)
+    return bills(job)
+
+@app2.put('/job/{id}/update')
+def update_job(id: int, request: mlsSchemas.Job, db: Session = Depends(get_db)):
+    return crudmodels.update_job(db, id, request)
+
+@app2.delete('/job/{id}/delete')
+def delete_job(id: int, db: Session = Depends(get_db)):
+    return crudmodels.delete_job(db, id)

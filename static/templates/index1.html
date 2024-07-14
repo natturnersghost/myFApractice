@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Job Form</title>
+</head>
+<body>
+    <h1>Create a New Job</h1>
+    <form id="jobForm">
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required><br><br>
+
+        <label for="starttime">Start Time:</label>
+        <input type="time" id="starttime" name="starttime" required><br><br>
+
+        <label for="stoptime">Stop Time:</label>
+        <input type="time" id="stoptime" name="stoptime" required><br><br>
+
+        <label for="travel">Travel:</label>
+        <input type="number" step="0.1" id="travel" name="travel" required><br><br>
+
+        <label for="rate">Rate:</label>
+        <input type="number" id="rate" name="rate" required><br><br>
+
+        <label for="number_of_movers">Number of Movers:</label>
+        <input type="number" id="number_of_movers" name="number_of_movers" required><br><br>
+
+        <label for="mileage">Mileage:</label>
+        <input type="number" id="mileage" name="mileage" required><br><br>
+
+        <label for="uhaul">U-Haul:</label>
+        <input type="checkbox" id="uhaul" name="uhaul"><br><br>
+
+        <label for="loadSwap">Load Swap:</label>
+        <input type="checkbox" id="loadSwap" name="loadSwap"><br><br>
+
+        <label for="other">Other:</label>
+        <input type="checkbox" id="other" name="other"><br><br>
+
+        <label for="fullService">Full Service:</label>
+        <input type="checkbox" id="fullService" name="fullService"><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script src="app.js"></script>
+</body>
+</html>
